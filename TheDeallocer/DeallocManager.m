@@ -49,6 +49,9 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
             line = [line stringByReplacingOccurrencesOfString:nonatomicRetainPropertyString withString:@""];
             line = [line stringByReplacingOccurrencesOfString:@";" withString:@""];
             NSArray *split = [line componentsSeparatedByString:@" *"];
+            
+            NSString *className = nil;
+            NSString *instanceName = nil;
 
             if ([split count] <= 1)
                 split = [line componentsSeparatedByString:@" "];
@@ -57,21 +60,24 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
             {
 
                 
-                NSString *className = [split objectAtIndex:0];
-                NSString *instanceName = [split objectAtIndex:1];
+                className = [split objectAtIndex:0];
+                instanceName = [split objectAtIndex:1];
 
-                NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
-                [retAr addObject:retDict];
             }
             else if ([split count] == 3)
             {
-                NSString *className = [split objectAtIndex:1];
-                NSString *instanceName = [split objectAtIndex:2];
+                className = [split objectAtIndex:1];
+                instanceName = [split objectAtIndex:2];
                 
+            }
+
+            if (className != nil && instanceName != nil)
+            {
                 NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
                 [retAr addObject:retDict];
             }
-                
+
+            
         }
     }
     
@@ -118,17 +124,13 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
 
         
     NSRange endRange = [content rangeOfString:@"@end" options:NSBackwardsSearch];
-    if (endRange.location > 0)
+    NSUInteger index = endRange.location;
+    if (endRange.location > 0 && endRange.location < 100000)
     {
         NSMutableString* mstr2 = [content mutableCopy];
-        [mstr2 insertString:deallocMethodString atIndex:endRange.location];
+        [mstr2 insertString:deallocMethodString atIndex:index];
         content = mstr2;
     }
-    /*
-    NSLog(@"releasablePropertiesArray: %@", releasablePropertiesArray);
-    NSLog(@"deallocMethodString: %@", deallocMethodString);
-    NSLog(@" ");
-    */
     
     return content;
 }

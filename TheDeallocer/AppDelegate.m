@@ -25,6 +25,8 @@
     
     NSString *folderPath = @"/Users/jklobe/Desktop/HomeTalk/HomeTalk/HomeTalk/";
 //    NSString *folderPath = @"/Users/josh/Desktop/Hometalk/HomeTalk/HomeTalk/";
+    
+    NSArray *excludeArray = [NSArray arrayWithObjects:@"ClassCreator.h", @"SMWebRequest.h", nil];
     NSFileManager *theFileManager = [NSFileManager defaultManager];
     NSError *error = nil;
     NSArray *filesArray = [theFileManager contentsOfDirectoryAtPath:folderPath error:&error];
@@ -35,7 +37,7 @@
     for (int i = 0; i < [filesArray count]; i++)
     {
         NSString *filename = [filesArray objectAtIndex:i];
-        if ([filename rangeOfString:@".h"].length > 0)
+        if ([filename rangeOfString:@".h"].length > 0 && [excludeArray indexOfObject:filename] == NSNotFound)
         {
             FilePairingObject *filePairingObject = [[FilePairingObject alloc] init];
             filePairingObject.rootPath = folderPath;
