@@ -23,8 +23,8 @@
     
     NSLog(@"here");
     
-//    NSString *folderPath = @"/Users/jklobe/Desktop/HomeTalk/HomeTalk/HomeTalk/";
-    NSString *folderPath = @"/Users/josh/Desktop/Hometalk/HomeTalk/HomeTalk/";
+    NSString *folderPath = @"/Users/jklobe/Desktop/HomeTalk/HomeTalk/HomeTalk/";
+//    NSString *folderPath = @"/Users/josh/Desktop/Hometalk/HomeTalk/HomeTalk/";
     NSFileManager *theFileManager = [NSFileManager defaultManager];
     NSError *error = nil;
     NSArray *filesArray = [theFileManager contentsOfDirectoryAtPath:folderPath error:&error];

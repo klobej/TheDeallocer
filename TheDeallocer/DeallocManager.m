@@ -19,8 +19,13 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
 {
     NSArray *releasableProperties = [DeallocManager getReleasableProperties:theFilePairingObject];
     
-    NSString *implementationString = [DeallocManager implementationStringByDeallocingWithFilePairingObject:theFilePairingObject withReleasableProperties:releasableProperties];
-
+    if (releasableProperties > 0)
+    {
+        NSString *implementationString = [DeallocManager implementationStringByDeallocingWithFilePairingObject:theFilePairingObject withReleasableProperties:releasableProperties];
+        theFilePairingObject.implementationReplacement = implementationString;
+    
+        [DeallocManager replaceImplementationWithFilePairingObject:theFilePairingObject];
+    }
 }
 
 +(NSArray *)getReleasableProperties:(FilePairingObject *)theFilePairingObject
@@ -31,30 +36,42 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     NSString* content = [NSString stringWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", theFilePairingObject.rootPath, theFilePairingObject.headerFilename]
                                                   encoding:NSUTF8StringEncoding
                                                      error:NULL];
-    
+
     NSArray *linesArray = [content componentsSeparatedByString:@"\n"];
     for (int i = 0; i < [linesArray count]; i++)
     {
         NSString *line = [linesArray objectAtIndex:i];
+  
         
-        if ([line rangeOfString:nonatomicRetainPropertyString].length > 0)
+        if ([line rangeOfString:nonatomicRetainPropertyString].length > 0 && [line rangeOfString:@"//"].length == 0)
         {
+            
             line = [line stringByReplacingOccurrencesOfString:nonatomicRetainPropertyString withString:@""];
             line = [line stringByReplacingOccurrencesOfString:@";" withString:@""];
             NSArray *split = [line componentsSeparatedByString:@" *"];
-            
+
             if ([split count] <= 1)
                 split = [line componentsSeparatedByString:@" "];
-            
-            if ([split count] > 1)
+
+            if ([split count] == 2 )
             {
+
                 
                 NSString *className = [split objectAtIndex:0];
                 NSString *instanceName = [split objectAtIndex:1];
+
+                NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
+                [retAr addObject:retDict];
+            }
+            else if ([split count] == 3)
+            {
+                NSString *className = [split objectAtIndex:1];
+                NSString *instanceName = [split objectAtIndex:2];
                 
                 NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
                 [retAr addObject:retDict];
             }
+                
         }
     }
     
@@ -69,7 +86,7 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
                                                   encoding:NSUTF8StringEncoding
                                                      error:NULL];
     
-    if ([content rangeOfString:@"dealloc"].length != 0)
+    if ([content rangeOfString:@"dealloc" options:NSBackwardsSearch].length != 0)
     {
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"-*(void)*dealloc*" options:0 error:NULL];
         NSTextCheckingResult *match = [regex firstMatchInString:content options:0 range:NSMakeRange(0, [content length])];
@@ -98,16 +115,42 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     
     [deallocMethodString appendString:@"\n\t[super dealloc];\n"];
     [deallocMethodString appendString:@"}\n"];
-    [deallocMethodString appendString:@"@end\n"];
-    
-    content = [content stringByReplacingOccurrencesOfString:@"@end" withString:deallocMethodString];
-    
+
+        
+    NSRange endRange = [content rangeOfString:@"@end" options:NSBackwardsSearch];
+    if (endRange.location > 0)
+    {
+        NSMutableString* mstr2 = [content mutableCopy];
+        [mstr2 insertString:deallocMethodString atIndex:endRange.location];
+        content = mstr2;
+    }
+    /*
     NSLog(@"releasablePropertiesArray: %@", releasablePropertiesArray);
     NSLog(@"deallocMethodString: %@", deallocMethodString);
     NSLog(@" ");
-    
+    */
     
     return content;
 }
+
++(void)replaceImplementationWithFilePairingObject:(FilePairingObject *)theFilePairingObject
+{
+    NSLog(@"replacing: %@", [NSString stringWithFormat:@"%@%@", theFilePairingObject.rootPath, theFilePairingObject.implementationFilename]);
+    
+    NSString *myString = theFilePairingObject.implementationReplacement;
+    NSError *err = nil;
+    [myString writeToFile:[NSString stringWithFormat:@"%@%@", theFilePairingObject.rootPath, theFilePairingObject.implementationFilename] atomically:YES encoding:NSUTF8StringEncoding error:&err];
+    if(err != nil) {
+        NSLog(@"error: %@", err);
+    }
+    else
+        NSLog(@"success!");
+    
+    NSLog(@" ");
+    NSLog(@" ");
+    
+        
+}
+
 @end
 

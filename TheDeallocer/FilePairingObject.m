@@ -10,7 +10,7 @@
 
 @implementation FilePairingObject
 
-@synthesize rootPath, headerFilename, implementationFilename;
+@synthesize rootPath, headerFilename, implementationFilename, implementationReplacement;
 
 -(NSString *)description
 {

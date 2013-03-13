@@ -13,10 +13,13 @@
     NSString *rootPath;
     NSString *headerFilename;
     NSString *implementationFilename;
+    
+    NSString *implementationReplacement;
 }
 
 @property (nonatomic, retain) NSString *rootPath;
 @property (nonatomic, retain) NSString *headerFilename;
 @property (nonatomic, retain) NSString *implementationFilename;
 
+@property (nonatomic, retain) NSString *implementationReplacement;
 @end
