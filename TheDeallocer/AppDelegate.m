@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "FilePairingObject.h"
-
+#import "DeallocManager.h"
 
 @implementation AppDelegate
 
@@ -31,7 +31,7 @@
     NSMutableArray *filePairingObjectsArray = [NSMutableArray arrayWithCapacity:0];
 
     NSLog(@"error: %@", error);
-    NSLog(@"filesArray: %@", filesArray);
+//    NSLog(@"filesArray: %@", filesArray);
 
     for (int i = 0; i < [filesArray count]; i++)
     {
@@ -42,13 +42,13 @@
             filePairingObject.rootPath = folderPath;
             filePairingObject.headerFilename = filename;
             filePairingObject.implementationFilename = [filename stringByReplacingOccurrencesOfString:@".h" withString:@".m"];
-            [filePairingObjectsArray addObject:filePairingObject];            
+            [filePairingObjectsArray addObject:filePairingObject];
         }
 
     }
-        
- 
-    NSLog(@"filePairingObjectsArray: %@", filePairingObjectsArray);
+    
+    [DeallocManager handleFilePairingObject:[filePairingObjectsArray objectAtIndex:0]];
+    
 }
 
 @end

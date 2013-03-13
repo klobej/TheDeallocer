@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B314B5216EFEA9E00F44C00 /* DeallocManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B314B5116EFEA9E00F44C00 /* DeallocManager.m */; };
 		7BB6CFFC16EFE34100FF9F61 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BB6CFFB16EFE34100FF9F61 /* Cocoa.framework */; };
 		7BB6D00616EFE34100FF9F61 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BB6D00416EFE34100FF9F61 /* InfoPlist.strings */; };
 		7BB6D00816EFE34100FF9F61 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB6D00716EFE34100FF9F61 /* main.m */; };
@@ -17,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B314B5016EFEA9E00F44C00 /* DeallocManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeallocManager.h; sourceTree = "<group>"; };
+		7B314B5116EFEA9E00F44C00 /* DeallocManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeallocManager.m; sourceTree = "<group>"; };
 		7BB6CFF816EFE34100FF9F61 /* TheDeallocer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheDeallocer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BB6CFFB16EFE34100FF9F61 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7BB6CFFE16EFE34100FF9F61 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -91,6 +94,8 @@
 				7BB6D00216EFE34100FF9F61 /* Supporting Files */,
 				7BB6D01816EFE5C100FF9F61 /* FilePairingObject.h */,
 				7BB6D01916EFE5C100FF9F61 /* FilePairingObject.m */,
+				7B314B5016EFEA9E00F44C00 /* DeallocManager.h */,
+				7B314B5116EFEA9E00F44C00 /* DeallocManager.m */,
 			);
 			path = TheDeallocer;
 			sourceTree = "<group>";
@@ -174,6 +179,7 @@
 				7BB6D00816EFE34100FF9F61 /* main.m in Sources */,
 				7BB6D00F16EFE34100FF9F61 /* AppDelegate.m in Sources */,
 				7BB6D01A16EFE5C100FF9F61 /* FilePairingObject.m in Sources */,
+				7B314B5216EFEA9E00F44C00 /* DeallocManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +313,7 @@
 				7BB6D01716EFE34100FF9F61 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
