@@ -73,6 +73,8 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
 
             if (className != nil && instanceName != nil)
             {
+                className = [className stringByReplacingOccurrencesOfString:@"IBOutlet" withString:@""];
+                className = [className stringByReplacingOccurrencesOfString:@" " withString:@""];
                 NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
                 [retAr addObject:retDict];
             }
@@ -114,7 +116,11 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     for (int i = 0; i < [releasablePropertiesArray count]; i++)
     {
         NSDictionary *dictObject = [releasablePropertiesArray objectAtIndex:i];
-        NSString *key = [[dictObject allKeys] objectAtIndex:0];
+        NSString *key = [NSString stringWithFormat:@"%@", [[dictObject allKeys] objectAtIndex:0]];
+        NSLog(@"key: %@", key);
+        Class class = NSClassFromString(key);
+        NSLog(@"class: %@", class);
+        NSLog(@" ");
         NSString *value = [dictObject objectForKey:key];
         [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ release];\n", value]];
     }

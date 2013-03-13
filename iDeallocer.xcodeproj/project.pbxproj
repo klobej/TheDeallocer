@@ -1,0 +1,299 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7B1F916816F1105B00AA0FE5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B1F916716F1105B00AA0FE5 /* UIKit.framework */; };
+		7B1F916A16F1105B00AA0FE5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B1F916916F1105B00AA0FE5 /* Foundation.framework */; };
+		7B1F916C16F1105B00AA0FE5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B1F916B16F1105B00AA0FE5 /* CoreGraphics.framework */; };
+		7B1F917216F1105B00AA0FE5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B1F917016F1105B00AA0FE5 /* InfoPlist.strings */; };
+		7B1F917416F1105B00AA0FE5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1F917316F1105B00AA0FE5 /* main.m */; };
+		7B1F917816F1105B00AA0FE5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1F917716F1105B00AA0FE5 /* AppDelegate.m */; };
+		7B1F917A16F1105B00AA0FE5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B1F917916F1105B00AA0FE5 /* Default.png */; };
+		7B1F917C16F1105B00AA0FE5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B1F917B16F1105B00AA0FE5 /* Default@2x.png */; };
+		7B1F917E16F1105B00AA0FE5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B1F917D16F1105B00AA0FE5 /* Default-568h@2x.png */; };
+		7B1F918816F1107100AA0FE5 /* FilePairingObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1F918516F1107100AA0FE5 /* FilePairingObject.m */; };
+		7B1F918916F1107100AA0FE5 /* DeallocManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1F918716F1107100AA0FE5 /* DeallocManager.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7B1F916416F1105B00AA0FE5 /* iDeallocer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iDeallocer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B1F916716F1105B00AA0FE5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		7B1F916916F1105B00AA0FE5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7B1F916B16F1105B00AA0FE5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		7B1F916F16F1105B00AA0FE5 /* iDeallocer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iDeallocer-Info.plist"; sourceTree = "<group>"; };
+		7B1F917116F1105B00AA0FE5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7B1F917316F1105B00AA0FE5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7B1F917516F1105B00AA0FE5 /* iDeallocer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iDeallocer-Prefix.pch"; sourceTree = "<group>"; };
+		7B1F917616F1105B00AA0FE5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		7B1F917716F1105B00AA0FE5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7B1F917916F1105B00AA0FE5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		7B1F917B16F1105B00AA0FE5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		7B1F917D16F1105B00AA0FE5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		7B1F918416F1107100AA0FE5 /* FilePairingObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilePairingObject.h; sourceTree = "<group>"; };
+		7B1F918516F1107100AA0FE5 /* FilePairingObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilePairingObject.m; sourceTree = "<group>"; };
+		7B1F918616F1107100AA0FE5 /* DeallocManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeallocManager.h; sourceTree = "<group>"; };
+		7B1F918716F1107100AA0FE5 /* DeallocManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeallocManager.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7B1F916116F1105B00AA0FE5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B1F916816F1105B00AA0FE5 /* UIKit.framework in Frameworks */,
+				7B1F916A16F1105B00AA0FE5 /* Foundation.framework in Frameworks */,
+				7B1F916C16F1105B00AA0FE5 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7B1F915B16F1105B00AA0FE5 = {
+			isa = PBXGroup;
+			children = (
+				7B1F916D16F1105B00AA0FE5 /* iDeallocer */,
+				7B1F916616F1105B00AA0FE5 /* Frameworks */,
+				7B1F916516F1105B00AA0FE5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7B1F916516F1105B00AA0FE5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B1F916416F1105B00AA0FE5 /* iDeallocer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7B1F916616F1105B00AA0FE5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7B1F916716F1105B00AA0FE5 /* UIKit.framework */,
+				7B1F916916F1105B00AA0FE5 /* Foundation.framework */,
+				7B1F916B16F1105B00AA0FE5 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7B1F916D16F1105B00AA0FE5 /* iDeallocer */ = {
+			isa = PBXGroup;
+			children = (
+				7B1F917616F1105B00AA0FE5 /* AppDelegate.h */,
+				7B1F917716F1105B00AA0FE5 /* AppDelegate.m */,
+				7B1F918416F1107100AA0FE5 /* FilePairingObject.h */,
+				7B1F918516F1107100AA0FE5 /* FilePairingObject.m */,
+				7B1F918616F1107100AA0FE5 /* DeallocManager.h */,
+				7B1F918716F1107100AA0FE5 /* DeallocManager.m */,
+				7B1F916E16F1105B00AA0FE5 /* Supporting Files */,
+			);
+			path = iDeallocer;
+			sourceTree = "<group>";
+		};
+		7B1F916E16F1105B00AA0FE5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7B1F916F16F1105B00AA0FE5 /* iDeallocer-Info.plist */,
+				7B1F917016F1105B00AA0FE5 /* InfoPlist.strings */,
+				7B1F917316F1105B00AA0FE5 /* main.m */,
+				7B1F917516F1105B00AA0FE5 /* iDeallocer-Prefix.pch */,
+				7B1F917916F1105B00AA0FE5 /* Default.png */,
+				7B1F917B16F1105B00AA0FE5 /* Default@2x.png */,
+				7B1F917D16F1105B00AA0FE5 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7B1F916316F1105B00AA0FE5 /* iDeallocer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B1F918116F1105B00AA0FE5 /* Build configuration list for PBXNativeTarget "iDeallocer" */;
+			buildPhases = (
+				7B1F916016F1105B00AA0FE5 /* Sources */,
+				7B1F916116F1105B00AA0FE5 /* Frameworks */,
+				7B1F916216F1105B00AA0FE5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iDeallocer;
+			productName = iDeallocer;
+			productReference = 7B1F916416F1105B00AA0FE5 /* iDeallocer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7B1F915C16F1105B00AA0FE5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Josh Klobe";
+			};
+			buildConfigurationList = 7B1F915F16F1105B00AA0FE5 /* Build configuration list for PBXProject "iDeallocer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7B1F915B16F1105B00AA0FE5;
+			productRefGroup = 7B1F916516F1105B00AA0FE5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7B1F916316F1105B00AA0FE5 /* iDeallocer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7B1F916216F1105B00AA0FE5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B1F917216F1105B00AA0FE5 /* InfoPlist.strings in Resources */,
+				7B1F917A16F1105B00AA0FE5 /* Default.png in Resources */,
+				7B1F917C16F1105B00AA0FE5 /* Default@2x.png in Resources */,
+				7B1F917E16F1105B00AA0FE5 /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7B1F916016F1105B00AA0FE5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B1F917416F1105B00AA0FE5 /* main.m in Sources */,
+				7B1F917816F1105B00AA0FE5 /* AppDelegate.m in Sources */,
+				7B1F918816F1107100AA0FE5 /* FilePairingObject.m in Sources */,
+				7B1F918916F1107100AA0FE5 /* DeallocManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7B1F917016F1105B00AA0FE5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B1F917116F1105B00AA0FE5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7B1F917F16F1105B00AA0FE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7B1F918016F1105B00AA0FE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7B1F918216F1105B00AA0FE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iDeallocer/iDeallocer-Prefix.pch";
+				INFOPLIST_FILE = "iDeallocer/iDeallocer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		7B1F918316F1105B00AA0FE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iDeallocer/iDeallocer-Prefix.pch";
+				INFOPLIST_FILE = "iDeallocer/iDeallocer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7B1F915F16F1105B00AA0FE5 /* Build configuration list for PBXProject "iDeallocer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B1F917F16F1105B00AA0FE5 /* Debug */,
+				7B1F918016F1105B00AA0FE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7B1F918116F1105B00AA0FE5 /* Build configuration list for PBXNativeTarget "iDeallocer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B1F918216F1105B00AA0FE5 /* Debug */,
+				7B1F918316F1105B00AA0FE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7B1F915C16F1105B00AA0FE5 /* Project object */;
+}

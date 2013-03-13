@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>TheDeallocer.xcscheme</key>
+		<key>iDeallocer.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,7 +12,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>7BB6CFF716EFE34100FF9F61</key>
+		<key>7B1F916316F1105B00AA0FE5</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7BB6CFF716EFE34100FF9F61"
-               BuildableName = "TheDeallocer.app"
-               BlueprintName = "TheDeallocer"
-               ReferencedContainer = "container:TheDeallocer.xcodeproj">
+               BlueprintIdentifier = "7B1F916316F1105B00AA0FE5"
+               BuildableName = "iDeallocer.app"
+               BlueprintName = "iDeallocer"
+               ReferencedContainer = "container:iDeallocer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7BB6CFF716EFE34100FF9F61"
-            BuildableName = "TheDeallocer.app"
-            BlueprintName = "TheDeallocer"
-            ReferencedContainer = "container:TheDeallocer.xcodeproj">
+            BlueprintIdentifier = "7B1F916316F1105B00AA0FE5"
+            BuildableName = "iDeallocer.app"
+            BlueprintName = "iDeallocer"
+            ReferencedContainer = "container:iDeallocer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -51,10 +51,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7BB6CFF716EFE34100FF9F61"
-            BuildableName = "TheDeallocer.app"
-            BlueprintName = "TheDeallocer"
-            ReferencedContainer = "container:TheDeallocer.xcodeproj">
+            BlueprintIdentifier = "7B1F916316F1105B00AA0FE5"
+            BuildableName = "iDeallocer.app"
+            BlueprintName = "iDeallocer"
+            ReferencedContainer = "container:iDeallocer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -69,10 +69,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7BB6CFF716EFE34100FF9F61"
-            BuildableName = "TheDeallocer.app"
-            BlueprintName = "TheDeallocer"
-            ReferencedContainer = "container:TheDeallocer.xcodeproj">
+            BlueprintIdentifier = "7B1F916316F1105B00AA0FE5"
+            BuildableName = "iDeallocer.app"
+            BlueprintName = "iDeallocer"
+            ReferencedContainer = "container:iDeallocer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
