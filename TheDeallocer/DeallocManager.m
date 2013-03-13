@@ -12,12 +12,16 @@
 
 static NSString *nonatomicRetainPropertyString = @"@property (nonatomic, retain)";
 static NSString *inheritenceString = @"@interface";
+static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
+
 
 +(void)handleFilePairingObject:(FilePairingObject *)theFilePairingObject
 {
     NSArray *releasableProperties = [DeallocManager getReleasableProperties:theFilePairingObject];
     NSLog(@"releasableProperties: %@", releasableProperties);
-    
+ 
+    NSString *implementationString = [DeallocManager implementationStringByDeallocingWithFilePairingObject:theFilePairingObject withReleasableProperties:releasableProperties];
+    NSLog(@"implementationString: %@", implementationString);
 }
 
 +(NSArray *)getReleasableProperties:(FilePairingObject *)theFilePairingObject
@@ -49,6 +53,39 @@ static NSString *inheritenceString = @"@interface";
     }
         
     return retAr;
+}
+
++(NSString *)implementationStringByDeallocingWithFilePairingObject:(FilePairingObject *)theFilePairingObject withReleasableProperties:(NSArray *)releasablePropertiesArray
+{
+    NSString* content = [NSString stringWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", theFilePairingObject.rootPath, theFilePairingObject.implementationFilename]
+                                                  encoding:NSUTF8StringEncoding
+                                                     error:NULL];
+    
+    if ([content rangeOfString:deallocMethodDefinitionString].length == 0)
+    {
+        NSMutableString *deallocMethodString = [NSMutableString stringWithCapacity:0];
+        [deallocMethodString appendString:[NSString stringWithFormat:@"%@\n", deallocMethodDefinitionString]];
+        [deallocMethodString appendString:@"{\n"];
+        
+        for (int i = 0; i < [releasablePropertiesArray count]; i++)
+        {
+            NSDictionary *dictObject = [releasablePropertiesArray objectAtIndex:i];
+            NSString *key = [[dictObject allKeys] objectAtIndex:0];
+            NSString *value = [dictObject objectForKey:key];
+            [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ release];\n", value]];
+        }
+        
+        [deallocMethodString appendString:@"\n\t[super dealloc];\n"];
+        [deallocMethodString appendString:@"}\n"];
+        [deallocMethodString appendString:@"@end\n"];
+        
+//        NSLog(@"deallocMethodString: %@", deallocMethodString);
+        
+        content = [content stringByReplacingOccurrencesOfString:@"@end" withString:deallocMethodString];
+    }
+
+    
+    return content;
 }
 @end
 
