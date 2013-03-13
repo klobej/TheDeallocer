@@ -18,15 +18,14 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
 +(void)handleFilePairingObject:(FilePairingObject *)theFilePairingObject
 {
     NSArray *releasableProperties = [DeallocManager getReleasableProperties:theFilePairingObject];
-    NSLog(@"releasableProperties: %@", releasableProperties);
- 
+    
     NSString *implementationString = [DeallocManager implementationStringByDeallocingWithFilePairingObject:theFilePairingObject withReleasableProperties:releasableProperties];
-    NSLog(@"implementationString: %@", implementationString);
+
 }
 
 +(NSArray *)getReleasableProperties:(FilePairingObject *)theFilePairingObject
 {
-
+    
     NSMutableArray *retAr = [NSMutableArray arrayWithCapacity:0];
     
     NSString* content = [NSString stringWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", theFilePairingObject.rootPath, theFilePairingObject.headerFilename]
@@ -37,21 +36,30 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     for (int i = 0; i < [linesArray count]; i++)
     {
         NSString *line = [linesArray objectAtIndex:i];
-    
+        
         if ([line rangeOfString:nonatomicRetainPropertyString].length > 0)
         {
             line = [line stringByReplacingOccurrencesOfString:nonatomicRetainPropertyString withString:@""];
             line = [line stringByReplacingOccurrencesOfString:@";" withString:@""];
             NSArray *split = [line componentsSeparatedByString:@" *"];
-            NSString *className = [split objectAtIndex:0];
-            NSString *instanceName = [split objectAtIndex:1];
-
-            NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
-            [retAr addObject:retDict];             
+            
+            if ([split count] <= 1)
+                split = [line componentsSeparatedByString:@" "];
+            
+            if ([split count] > 1)
+            {
+                
+                NSString *className = [split objectAtIndex:0];
+                NSString *instanceName = [split objectAtIndex:1];
+                
+                NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
+                [retAr addObject:retDict];
+            }
         }
-
     }
-        
+    
+    
+    
     return retAr;
 }
 
@@ -61,29 +69,43 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
                                                   encoding:NSUTF8StringEncoding
                                                      error:NULL];
     
-    if ([content rangeOfString:deallocMethodDefinitionString].length == 0)
+    if ([content rangeOfString:@"dealloc"].length != 0)
     {
-        NSMutableString *deallocMethodString = [NSMutableString stringWithCapacity:0];
-        [deallocMethodString appendString:[NSString stringWithFormat:@"%@\n", deallocMethodDefinitionString]];
-        [deallocMethodString appendString:@"{\n"];
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"-*(void)*dealloc*" options:0 error:NULL];
+        NSTextCheckingResult *match = [regex firstMatchInString:content options:0 range:NSMakeRange(0, [content length])];
         
-        for (int i = 0; i < [releasablePropertiesArray count]; i++)
-        {
-            NSDictionary *dictObject = [releasablePropertiesArray objectAtIndex:i];
-            NSString *key = [[dictObject allKeys] objectAtIndex:0];
-            NSString *value = [dictObject objectForKey:key];
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ release];\n", value]];
-        }
+        NSString *deallocMethodStartString = [content substringFromIndex:match.range.location-9];
         
-        [deallocMethodString appendString:@"\n\t[super dealloc];\n"];
-        [deallocMethodString appendString:@"}\n"];
-        [deallocMethodString appendString:@"@end\n"];
+        int closeHitchCockIndex = (int)[deallocMethodStartString rangeOfString:@"\n}"].location + 1;
         
-//        NSLog(@"deallocMethodString: %@", deallocMethodString);
-        
-        content = [content stringByReplacingOccurrencesOfString:@"@end" withString:deallocMethodString];
+        NSString *deallocMethod = [content substringWithRange:NSMakeRange([content rangeOfString:deallocMethodStartString].location, closeHitchCockIndex + 1)];
+     
+        content = [content stringByReplacingOccurrencesOfString:deallocMethod withString:@""];
     }
-
+    
+    
+    NSMutableString *deallocMethodString = [NSMutableString stringWithCapacity:0];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"%@\n", deallocMethodDefinitionString]];
+    [deallocMethodString appendString:@"{\n"];
+    
+    for (int i = 0; i < [releasablePropertiesArray count]; i++)
+    {
+        NSDictionary *dictObject = [releasablePropertiesArray objectAtIndex:i];
+        NSString *key = [[dictObject allKeys] objectAtIndex:0];
+        NSString *value = [dictObject objectForKey:key];
+        [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ release];\n", value]];
+    }
+    
+    [deallocMethodString appendString:@"\n\t[super dealloc];\n"];
+    [deallocMethodString appendString:@"}\n"];
+    [deallocMethodString appendString:@"@end\n"];
+    
+    content = [content stringByReplacingOccurrencesOfString:@"@end" withString:deallocMethodString];
+    
+    NSLog(@"releasablePropertiesArray: %@", releasablePropertiesArray);
+    NSLog(@"deallocMethodString: %@", deallocMethodString);
+    NSLog(@" ");
+    
     
     return content;
 }

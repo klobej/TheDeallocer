@@ -23,15 +23,14 @@
     
     NSLog(@"here");
     
-    NSString *folderPath = @"/Users/jklobe/Desktop/HomeTalk/HomeTalk/HomeTalk/";
+//    NSString *folderPath = @"/Users/jklobe/Desktop/HomeTalk/HomeTalk/HomeTalk/";
+    NSString *folderPath = @"/Users/josh/Desktop/Hometalk/HomeTalk/HomeTalk/";
     NSFileManager *theFileManager = [NSFileManager defaultManager];
     NSError *error = nil;
     NSArray *filesArray = [theFileManager contentsOfDirectoryAtPath:folderPath error:&error];
     
     NSMutableArray *filePairingObjectsArray = [NSMutableArray arrayWithCapacity:0];
 
-    NSLog(@"error: %@", error);
-//    NSLog(@"filesArray: %@", filesArray);
 
     for (int i = 0; i < [filesArray count]; i++)
     {
@@ -47,7 +46,10 @@
 
     }
     
-    [DeallocManager handleFilePairingObject:[filePairingObjectsArray objectAtIndex:0]];
+    for (int i = 0; i < [filePairingObjectsArray count]; i++)
+    {
+    [DeallocManager handleFilePairingObject:[filePairingObjectsArray objectAtIndex:i]];
+    }
     
 }
 
