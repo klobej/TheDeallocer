@@ -84,13 +84,20 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
                 
                 if (className != nil && instanceName != nil)
                 {
-                    className = [className stringByReplacingOccurrencesOfString:@"IBOutlet" withString:@""];
-                    className = [className stringByReplacingOccurrencesOfString:@" " withString:@""];
-                    
+                    if ([className rangeOfString:@"IBOutlet"].length > 0)
+                    {
+                        NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
+                        [retAr addObject:retDict];
+                    }
+                    else
+                    {
+                        className = [className stringByReplacingOccurrencesOfString:@"IBOutlet" withString:@""];
+                        className = [className stringByReplacingOccurrencesOfString:@" " withString:@""];
+                        //IBOutlets are a problem right now
+                        
+                    }
                     NSLog(@"className: %@, instanceName: %@", className, instanceName);
                     
-                    NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
-                    [retAr addObject:retDict];
                 }
                 
                 
