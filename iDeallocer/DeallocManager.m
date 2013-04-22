@@ -130,7 +130,7 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     [deallocMethodString appendString:@"{\n"];    
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tswitch (DEALLOC_LOG_LEVEL) {"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tcase DEALLOC_LOG_LEVEL_ALL:"]];
-    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\t\tNSLog(@\"deallocing: %@\", self);", @"%@"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\t\tNSLog(@\"deallocing: %@\", [self class]);", @"%@"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tbreak;\n"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tcase DEALLOC_LOG_LEVEL_EXCLUDE:"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\t\tNSLog(@\"\");\n"]];
@@ -143,7 +143,7 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     }
 
     [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\tif(proceed)\n"]];
-    [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\t\tNSLog(@\"deallocing: %@\", self);", @"%@"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\t\tNSLog(@\"deallocing: %@\", [self class]);", @"%@"]];
     
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tbreak;\n"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tdefault:"]];
