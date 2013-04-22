@@ -15,13 +15,14 @@ static NSString *inheritenceString = @"@interface";
 static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
 
 
+
 +(void)handleFilePairingObject:(FilePairingObject *)theFilePairingObject
 {
     NSArray *releasableProperties = [DeallocManager getReleasableProperties:theFilePairingObject];
-    
+    NSArray *excludableClasses = [NSArray arrayWithObjects:@"APIHandler", nil];
     if (releasableProperties > 0)
     {
-        NSString *implementationString = [DeallocManager implementationStringByDeallocingWithFilePairingObject:theFilePairingObject withReleasableProperties:releasableProperties];
+        NSString *implementationString = [DeallocManager implementationStringByDeallocingWithFilePairingObject:theFilePairingObject withReleasableProperties:releasableProperties withExcludableClassesArray:excludableClasses];
         theFilePairingObject.implementationReplacement = implementationString;
         
         [DeallocManager replaceImplementationWithFilePairingObject:theFilePairingObject];
@@ -103,7 +104,7 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     return retAr;
 }
 
-+(NSString *)implementationStringByDeallocingWithFilePairingObject:(FilePairingObject *)theFilePairingObject withReleasableProperties:(NSArray *)releasablePropertiesArray
++(NSString *)implementationStringByDeallocingWithFilePairingObject:(FilePairingObject *)theFilePairingObject withReleasableProperties:(NSArray *)releasablePropertiesArray withExcludableClassesArray:(NSArray *)excludeArray
 {
     NSString* content = [NSString stringWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", theFilePairingObject.rootPath, theFilePairingObject.implementationFilename]
                                                   encoding:NSUTF8StringEncoding
@@ -126,16 +127,29 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     
     NSMutableString *deallocMethodString = [NSMutableString stringWithCapacity:0];
     [deallocMethodString appendString:[NSString stringWithFormat:@"%@\n", deallocMethodDefinitionString]];
-    [deallocMethodString appendString:@"{\n"];
-    
-    
+    [deallocMethodString appendString:@"{\n"];    
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tswitch (DEALLOC_LOG_LEVEL) {"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tcase DEALLOC_LOG_LEVEL_ALL:"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\t\tNSLog(@\"deallocing: %@\", self);", @"%@"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tbreak;\n"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tcase DEALLOC_LOG_LEVEL_EXCLUDE:"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\t\tNSLog(@\"\");\n"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\tBOOL proceed = YES;\n"]];
+    for (int i = 0; i < [excludeArray count]; i++)
+    {
+        [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\tif ([[self class] rangeOfString:@\"%@\"].length > 0);\n", [excludeArray objectAtIndex:i]]];
+        [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\t\tproceed = NO;\n"]];
+        
+    }
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\tif(proceed)\n"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\t\tNSLog(@\"deallocing: %@\", self);", @"%@"]];
+
+    //    
+    
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tbreak;\n"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tdefault:"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tbreak;"]];
-    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t}"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t}\n\n"]];
                     
 
     for (int i = 0; i < [releasablePropertiesArray count]; i++)
