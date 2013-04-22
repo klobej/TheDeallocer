@@ -137,14 +137,13 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\tBOOL proceed = YES;\n"]];
     for (int i = 0; i < [excludeArray count]; i++)
     {
-        [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\tif ([[self class] rangeOfString:@\"%@\"].length > 0);\n", [excludeArray objectAtIndex:i]]];
+        [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\tif ([[[self class] description] rangeOfString:@\"%@\"].length > 0)\n", [excludeArray objectAtIndex:i]]];
         [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\t\tproceed = NO;\n"]];
         
     }
+
     [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\tif(proceed)\n"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\t\tNSLog(@\"deallocing: %@\", self);", @"%@"]];
-
-    //    
     
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tbreak;\n"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tdefault:"]];
