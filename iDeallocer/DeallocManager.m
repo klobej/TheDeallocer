@@ -112,7 +112,7 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     NSMutableString *deallocMethodString = [NSMutableString stringWithCapacity:0];
     [deallocMethodString appendString:[NSString stringWithFormat:@"%@\n", deallocMethodDefinitionString]];
     [deallocMethodString appendString:@"{\n"];
-    
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tNSLog(@\"deallocing: %@\", self);", @"%@"]];
     for (int i = 0; i < [releasablePropertiesArray count]; i++)
     {
         NSDictionary *dictObject = [releasablePropertiesArray objectAtIndex:i];
@@ -124,11 +124,11 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
         
         if ([objectClass isSubclassOfClass:[UIView class]] && ![objectClass isSubclassOfClass:[UIButton class]])
         {  
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tNSLog(@\"deallocing: %@\", self);", @"%@"]];
+            
             [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tif ([self.%@ superview] != nil)\n\t", value]];
             [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ removeFromSuperview];\n", value]];
             [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ release];\n", value]];
-//            [deallocMethodString appendString:[NSString stringWithFormat:@"\tself.%@ = nil;\n", value]];
+            [deallocMethodString appendString:[NSString stringWithFormat:@"\tself.%@ = nil;\n", value]];
             [deallocMethodString appendString:@"\n"];
         }
         else
