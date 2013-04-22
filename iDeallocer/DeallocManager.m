@@ -84,18 +84,10 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
                 
                 if (className != nil && instanceName != nil)
                 {
-                    if ([className rangeOfString:@"IBOutlet"].length > 0)
-                    {
-                        NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
-                        [retAr addObject:retDict];
-                    }
-                    else
-                    {
-                        className = [className stringByReplacingOccurrencesOfString:@"IBOutlet" withString:@""];
-                        className = [className stringByReplacingOccurrencesOfString:@" " withString:@""];
-                        //IBOutlets are a problem right now
-                        
-                    }
+                    
+                    
+                    NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
+                    [retAr addObject:retDict];
                     NSLog(@"className: %@, instanceName: %@", className, instanceName);
                     
                 }
@@ -106,7 +98,7 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     }
     
     NSLog(@" ");
-    NSLog(@" ");    
+    NSLog(@" ");
     
     return retAr;
 }
@@ -134,7 +126,7 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     
     NSMutableString *deallocMethodString = [NSMutableString stringWithCapacity:0];
     [deallocMethodString appendString:[NSString stringWithFormat:@"%@\n", deallocMethodDefinitionString]];
-    [deallocMethodString appendString:@"{\n"];    
+    [deallocMethodString appendString:@"{\n"];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tswitch (DEALLOC_LOG_LEVEL) {"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tcase DEALLOC_LOG_LEVEL_ALL:"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\t\tNSLog(@\"deallocing: %@\", [self class]);", @"%@"]];
@@ -148,7 +140,7 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
         [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\t\tproceed = NO;\n"]];
         
     }
-
+    
     [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\tif(proceed)\n"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t\t\tNSLog(@\"deallocing: %@\", [self class]);", @"%@"]];
     
@@ -156,8 +148,8 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tdefault:"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tbreak;"]];
     [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t}\n\n"]];
-                    
-
+    
+    
     for (int i = 0; i < [releasablePropertiesArray count]; i++)
     {
         NSDictionary *dictObject = [releasablePropertiesArray objectAtIndex:i];
@@ -165,23 +157,34 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
         NSString *key = [NSString stringWithFormat:@"%@", [[dictObject allKeys] objectAtIndex:0]];
         NSString *value = [dictObject objectForKey:key];
         
-        Class objectClass = NSClassFromString(key);
         
-        if ([objectClass isSubclassOfClass:[UIView class]] && ![objectClass isSubclassOfClass:[UIButton class]])
+        if ([key rangeOfString:@"IBOutlet"].length > 0)
         {
-            
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tif ([self.%@ superview] != nil)\n", value]];
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\t{\n"]];
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t[self.%@ removeFromSuperview];\n",value]];
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t[self.%@ release];\n", value]];
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\t\tself.%@ = nil;\n", value]];
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\t}\n"]];
-            [deallocMethodString appendString:@"\n"];
+            value = [value stringByReplacingOccurrencesOfString:@"IBOutlet" withString:@""];
+            value = [value stringByReplacingOccurrencesOfString:@" " withString:@""];
+            [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ release];\n", value]];
         }
+        
         else
         {
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ release];\n", value]];
+            Class objectClass = NSClassFromString(key);
             
+            if ([objectClass isSubclassOfClass:[UIView class]] && ![objectClass isSubclassOfClass:[UIButton class]])
+            {
+                
+                [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tif ([self.%@ superview] != nil)\n", value]];
+                [deallocMethodString appendString:[NSString stringWithFormat:@"\t{\n"]];
+                [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t[self.%@ removeFromSuperview];\n",value]];
+                [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t[self.%@ release];\n", value]];
+                [deallocMethodString appendString:[NSString stringWithFormat:@"\t\tself.%@ = nil;\n", value]];
+                [deallocMethodString appendString:[NSString stringWithFormat:@"\t}\n"]];
+                [deallocMethodString appendString:@"\n"];
+            }
+            else
+            {
+                [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ release];\n", value]];
+                
+            }
         }
         
         
