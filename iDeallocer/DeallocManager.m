@@ -127,7 +127,17 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     NSMutableString *deallocMethodString = [NSMutableString stringWithCapacity:0];
     [deallocMethodString appendString:[NSString stringWithFormat:@"%@\n", deallocMethodDefinitionString]];
     [deallocMethodString appendString:@"{\n"];
-    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tNSLog(@\"deallocing: %@\", self);", @"%@"]];
+    
+    
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tswitch (DEALLOC_LOG_LEVEL) {"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tcase DEALLOC_LOG_LEVEL_ALL:"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\t\tNSLog(@\"deallocing: %@\", self);", @"%@"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tbreak;\n"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tdefault:"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t\tbreak;"]];
+    [deallocMethodString appendString:[NSString stringWithFormat:@"\n\t}"]];
+                    
+
     for (int i = 0; i < [releasablePropertiesArray count]; i++)
     {
         NSDictionary *dictObject = [releasablePropertiesArray objectAtIndex:i];
