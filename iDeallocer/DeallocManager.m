@@ -23,7 +23,7 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     {
         NSString *implementationString = [DeallocManager implementationStringByDeallocingWithFilePairingObject:theFilePairingObject withReleasableProperties:releasableProperties];
         theFilePairingObject.implementationReplacement = implementationString;
-    
+        
         [DeallocManager replaceImplementationWithFilePairingObject:theFilePairingObject];
     }
 }
@@ -33,57 +33,72 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     
     NSMutableArray *retAr = [NSMutableArray arrayWithCapacity:0];
     
-    NSString* content = [NSString stringWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", theFilePairingObject.rootPath, theFilePairingObject.headerFilename]
-                                                  encoding:NSUTF8StringEncoding
-                                                     error:NULL];
-
-    NSArray *linesArray = [content componentsSeparatedByString:@"\n"];
-    for (int i = 0; i < [linesArray count]; i++)
+    NSArray *filenamesAr = [NSArray arrayWithObjects:theFilePairingObject.headerFilename, theFilePairingObject.implementationFilename, nil];
+    
+    
+    for (int j = 0; j < [filenamesAr count]; j++)
     {
-        NSString *line = [linesArray objectAtIndex:i];
-  
+        NSString *lookupString = [filenamesAr objectAtIndex:j];
         
-        if ([line rangeOfString:nonatomicRetainPropertyString].length > 0 && [line rangeOfString:@"//"].length == 0)
+        NSLog(@"lookupString: %@", lookupString);
+        
+        
+        NSString* content = [NSString stringWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", theFilePairingObject.rootPath, lookupString]
+                                                      encoding:NSUTF8StringEncoding
+                                                         error:NULL];
+        
+        NSArray *linesArray = [content componentsSeparatedByString:@"\n"];
+        for (int i = 0; i < [linesArray count]; i++)
         {
+            NSString *line = [linesArray objectAtIndex:i];
             
-            line = [line stringByReplacingOccurrencesOfString:nonatomicRetainPropertyString withString:@""];
-            line = [line stringByReplacingOccurrencesOfString:@";" withString:@""];
-            NSArray *split = [line componentsSeparatedByString:@" *"];
             
-            NSString *className = nil;
-            NSString *instanceName = nil;
-
-            if ([split count] <= 1)
-                split = [line componentsSeparatedByString:@" "];
-
-            if ([split count] == 2 )
+            if ([line rangeOfString:nonatomicRetainPropertyString].length > 0 && [line rangeOfString:@"//"].length == 0)
             {
-
                 
-                className = [split objectAtIndex:0];
-                instanceName = [split objectAtIndex:1];
-
-            }
-            else if ([split count] == 3)
-            {
-                className = [split objectAtIndex:1];
-                instanceName = [split objectAtIndex:2];
+                line = [line stringByReplacingOccurrencesOfString:nonatomicRetainPropertyString withString:@""];
+                line = [line stringByReplacingOccurrencesOfString:@";" withString:@""];
+                NSArray *split = [line componentsSeparatedByString:@" *"];
+                
+                NSString *className = nil;
+                NSString *instanceName = nil;
+                
+                if ([split count] <= 1)
+                    split = [line componentsSeparatedByString:@" "];
+                
+                if ([split count] == 2 )
+                {
+                    
+                    
+                    className = [split objectAtIndex:0];
+                    instanceName = [split objectAtIndex:1];
+                    
+                }
+                else if ([split count] == 3)
+                {
+                    className = [split objectAtIndex:1];
+                    instanceName = [split objectAtIndex:2];
+                    
+                }
+                
+                if (className != nil && instanceName != nil)
+                {
+                    className = [className stringByReplacingOccurrencesOfString:@"IBOutlet" withString:@""];
+                    className = [className stringByReplacingOccurrencesOfString:@" " withString:@""];
+                    
+                    NSLog(@"className: %@, instanceName: %@", className, instanceName);
+                    
+                    NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
+                    [retAr addObject:retDict];
+                }
+                
                 
             }
-
-            if (className != nil && instanceName != nil)
-            {
-                className = [className stringByReplacingOccurrencesOfString:@"IBOutlet" withString:@""];
-                className = [className stringByReplacingOccurrencesOfString:@" " withString:@""];
-                NSDictionary *retDict = [NSDictionary dictionaryWithObject:instanceName forKey:className];
-                [retAr addObject:retDict];
-            }
-
-            
         }
     }
     
-    
+    NSLog(@" ");
+    NSLog(@" ");    
     
     return retAr;
 }
@@ -104,7 +119,7 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
         int closeHitchCockIndex = (int)[deallocMethodStartString rangeOfString:@"\n}"].location + 1;
         
         NSString *deallocMethod = [content substringWithRange:NSMakeRange([content rangeOfString:deallocMethodStartString].location, closeHitchCockIndex + 1)];
-     
+        
         content = [content stringByReplacingOccurrencesOfString:deallocMethod withString:@""];
     }
     
@@ -123,7 +138,7 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
         Class objectClass = NSClassFromString(key);
         
         if ([objectClass isSubclassOfClass:[UIView class]] && ![objectClass isSubclassOfClass:[UIButton class]])
-        {  
+        {
             
             [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tif ([self.%@ superview] != nil)\n\t", value]];
             [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ removeFromSuperview];\n", value]];
@@ -136,14 +151,14 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
             [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ release];\n", value]];
             
         }
-       
-    
+        
+        
     }
     
     [deallocMethodString appendString:@"\n\t[super dealloc];\n"];
     [deallocMethodString appendString:@"}\n"];
-
-        
+    
+    
     NSRange endRange = [content rangeOfString:@"@end" options:NSBackwardsSearch];
     NSUInteger index = endRange.location;
     if (endRange.location > 0 && endRange.location < 100000)
@@ -172,7 +187,7 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
     NSLog(@" ");
     NSLog(@" ");
     
-        
+    
 }
 
 @end
