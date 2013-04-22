@@ -27,7 +27,7 @@
     NSLog(@"here");
     
     NSString *folderPath = @"/Users/jklobe/Desktop/HomeTalk/HomeTalk/HomeTalk/";
-    //    NSString *folderPath = @"/Users/josh/Desktop/Hometalk/HomeTalk/HomeTalk/";
+    //NSString *folderPath = @"/Users/jaycanty/Desktop/HomeTalk/HomeTalk/";
     
     NSArray *excludeArray = [NSArray arrayWithObjects:@"ClassCreator.h", @"SMWebRequest.h", nil];
     NSFileManager *theFileManager = [NSFileManager defaultManager];
