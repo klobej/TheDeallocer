@@ -140,10 +140,12 @@ static NSString *deallocMethodDefinitionString = @"-(void) dealloc";
         if ([objectClass isSubclassOfClass:[UIView class]] && ![objectClass isSubclassOfClass:[UIButton class]])
         {
             
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tif ([self.%@ superview] != nil)\n\t", value]];
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ removeFromSuperview];\n", value]];
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\t[self.%@ release];\n", value]];
-            [deallocMethodString appendString:[NSString stringWithFormat:@"\tself.%@ = nil;\n", value]];
+            [deallocMethodString appendString:[NSString stringWithFormat:@"\n\tif ([self.%@ superview] != nil)\n", value]];
+            [deallocMethodString appendString:[NSString stringWithFormat:@"\t{\n"]];
+            [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t[self.%@ removeFromSuperview];\n",value]];
+            [deallocMethodString appendString:[NSString stringWithFormat:@"\t\t[self.%@ release];\n", value]];
+            [deallocMethodString appendString:[NSString stringWithFormat:@"\t\tself.%@ = nil;\n", value]];
+            [deallocMethodString appendString:[NSString stringWithFormat:@"\t}\n"]];
             [deallocMethodString appendString:@"\n"];
         }
         else
